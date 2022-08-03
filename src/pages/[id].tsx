@@ -1,13 +1,15 @@
-import { Home, Props } from '../client/components/pages/Home/Home';
 import { GetServerSideProps } from 'next';
+import { Blog, Props } from '../client/components/pages/Blog/Blog';
 import { fetch } from '../shared/utils/fetch';
 import { BlogPost } from '../shared/types/blog-post';
 
 export const getServerSideProps: GetServerSideProps<Props> = async (
     context,
 ) => {
-    const blogPosts = await fetch<BlogPost[]>('/api/blog-posts');
-    return { props: { blogPosts } };
+    const id = context.query.id;
+    const post = await fetch<BlogPost>(`/api/blog-posts/${id}`);
+
+    return { props: { post } };
 };
 
-export default Home;
+export default Blog;
